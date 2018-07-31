@@ -1,3 +1,4 @@
+#include "test_functions.h"
 #include "flood_fill.h"
 
 void actual_flood_fill(char **tab, char colour, t_point size, int x, int y)
