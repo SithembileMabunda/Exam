@@ -1,43 +1,33 @@
-#include "test_functions.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flood_fill.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: smabunda <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/01 08:23:41 by smabunda          #+#    #+#             */
+/*   Updated: 2018/08/01 08:38:04 by smabunda         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "flood_fill.h"
 
-void actual_flood_fill(char **tab, char colour, t_point size, int x, int y)
+void	flood_fill(char **tab, t_point size, t_point begin)
 {
-  if (x < 0 || y < 0)
-    return ;
-  if (x >= size.x || y >= size.y)
-    return ;
-  if (tab[y][x] != colour)
-    return ;
-  tab[y][x] = 'F';
-  actual_flood_fill(tab, colour, size, x + 1, y);
-  actual_flood_fill(tab, colour, size, x - 1, y);
-  actual_flood_fill(tab, colour, size, x, y + 1);
-  actual_flood_fill(tab, colour, size, x, y - 1);
+	flood_filler(tab, tab[begin.y][begin.x], size, begin.x, begin.y);
 }
 
-void flood_fill(char **tab, t_point size, t_point begin)
+void	flood_filler(char **tab, char colour, t_point size, int x, int y)
 {
-  actual_flood_fill(tab, tab[begin.y][begin.x], size, begin.x, begin.y);
-}
-
-int   main(void)
-{
-  char **area;
-	t_point size = { 8, 5 };
-	t_point begin = { 2, 2 };
-	char *zone[] = {
-		"11111111",
-		"10001001",
-		"10010001",
-		"10110001",
-		"11100001"
-	};
-
-	area = make_area(zone);
-	print_tab(area);
-	flood_fill(area, size, begin);
-	putc('\n');
-	print_tab(area);
-	return (0);
+	if (x < 0 || y < 0)
+		return ;
+	if (x > size.x || y > size.y)
+		return ;
+	if (tab[y][x] != colour)
+		return ;
+	tab[y][x] = 'F';
+	flood_filler(tab, colour, size, x + 1, y);
+	flood_filler(tab, colour, size, x - 1, y);
+	flood_filler(tab, colour, size, x, y + 1);
+	flood_filler(tab, colour, size, x, y - 1);
 }
