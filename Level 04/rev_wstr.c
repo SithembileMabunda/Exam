@@ -5,63 +5,96 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: smabunda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/30 13:47:15 by smabunda          #+#    #+#             */
-/*   Updated: 2018/07/30 15:09:55 by smabunda         ###   ########.fr       */
+/*   Created: 2018/08/14 12:38:37 by smabunda          #+#    #+#             */
+/*   Updated: 2018/08/14 12:47:19 by smabunda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-int		ft_strlen(char *str)
+int		ft_wc(char *str)
 {
 	int i;
+	int wc;
 
 	i = 0;
+	wc = 1;
 	while (str[i] != '\0')
+	{
+		if (str[i] == ' ' || str[i] == '\t')
+			wc++;
 		i++;
-	return (i);
+	}
+	return (wc);
 }
 
-void	rev_wstr(char *str)
+char	*ft_strndup(char *str, int n)
 {
+	char *result;
+	int i;
+
+	result = (char *)malloc(sizeof(char) * n + 1);
+	if (result == NULL)
+		return (NULL);
+	if (result)
+	{
+		i = 0;
+		while ((i < n) && str[i] != '\0')
+		{
+			result[i] = str[i];
+			i++;
+		}
+		result[i] = '\0';
+	}
+	return (result);
+}
+
+char	**ft_split(char *str)
+{
+	char **result;
 	int i;
 	int j;
 	int k;
 
 	i = 0;
-	j = ft_strlen(str) - 1;
-	if (str[j] == ' ' || str[j] == '\t')
+	k = 0;
+	result = (char **)malloc(sizeof(char *) * ft_wc(str) + 1);
+	if (result == NULL)
+		return (NULL);
+	while (str[i] != '\0')
 	{
-		while (str[j] != 0 && (str[j] == ' ' || str[j] == '\t'))
-			j--;
-		ft_putchar(1);
-	}
-
-	while (str[j] != 0)
-	{
-		k = j + 1;
-		if (str[j] == ' ' || str[j] == '\t')
-			j--;
-		while (str[k] != '\0' && (str[k] != ' ' || str[k] != '\t'))
+		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+			i++;
+		j = i;
+		while (str[i] != '\0' && (str[i] != ' ' && str[i] != '\t'))
+			i++;
+		if (i > j)
 		{
-			ft_putchar(str[k]);
+			result[k] = ft_strndup(str + j, i - j);
 			k++;
 		}
 	}
-	ft_putchar('\n');
+	result[k] = NULL;
+	return (result);
 }
 
-int		main(int ac, char **av)
+int		main(void)
 {
-	if (ac == 2)
-		rev_wstr(av[1]);
-	else
-		ft_putchar('\n');
+	char **result;
+	int i;
+
+	i = 0;
+	result = ft_split("   my name is sithembile mabunda   ");
+	while (result[i] != NULL)
+	{
+		i++;
+	}
+	i--;
+	while (i >= 0)
+	{
+		printf("%s\n", result[i]);
+		i--;
+	}
 	return (0);
 }
