@@ -6,19 +6,19 @@
 /*   By: smabunda <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/14 12:20:48 by smabunda          #+#    #+#             */
-/*   Updated: 2018/08/14 12:31:49 by smabunda         ###   ########.fr       */
+/*   Updated: 2018/08/15 07:51:18 by smabunda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 
-int		number(int nbr)
+int		number(int nbr, int base)
 {
 	int i;
 
 	i = 1;
-	while (nbr /= 10)
+	while (nbr /= base)
 		i++;
 	return (i);
 }
@@ -28,9 +28,9 @@ char	*ft_itoa_base(int nbr, int base)
 	int		len;
 	char	*result;
 	long	temp;
-	char	*str = "0123456789ABCDEF";
+	char	*str = "0123456789abcdef";
 
-	len = number(nbr);
+	len = number(nbr, base);
 	temp = nbr;
 	if (nbr < 0)
 	{
@@ -56,7 +56,7 @@ int		main(void)
 {
 	char *result;
 
-	result = ft_itoa_base(-55, 16);
+	result = ft_itoa_base(255, 16);
 	printf("%s\n", result);
 	return (0);
 }
